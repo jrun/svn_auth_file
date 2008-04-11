@@ -1,33 +1,30 @@
 module SvnAuthFile
   module Listener
-    def start_group_section
+    def group_section_start
     end
     
-    def end_group_section
+    def group_section_end
     end
     
-    def start_group(group_name)
+    def group(group, members)
     end
     
-    def end_group
+    def path_start(path, repository = nil)
     end
     
-    def start_group_membership(group, member)
+    def path_end
     end
     
-    def end_group_membership
+    def permission(permission, assignee)
     end
     
-    def start_path(path, repository_name = nil)
+    def group_permission(permission, group)
     end
     
-    def end_path
+    def comment_line(comment)
     end
     
-    def start_permission(assignee, permission)
-    end
-    
-    def end_permission
+    def empty_line
     end
   end
   
