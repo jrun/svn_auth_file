@@ -1,0 +1,53 @@
+:groups_section: |-
+  [groups]
+  awesome-autobots = prime, ironhide, hound
+  evil-decepticons=Megatron,overkill,shockwave
+
+  everyone = @awesome-autobots, @evil-decepticons
+:with_comments: |-
+  # comment line 1
+  # comment line 2
+  
+:root_path: |-
+  [/]
+  * =  
+  
+:simple_path: |-
+  [metroplex:/trunk]
+  @awesome-autobots = rw
+  @evil-decepticons = r
+  
+:path_with_interesting_characters: |-
+  [slammer:/tags/rel-1.0.0]
+  @awesome-autobots = rw
+  @evil-decepticons =
+  
+:full: |-
+  [groups]
+  awesome-autobots = prime, ironhide, hound
+  evil-decepticons=Megatron,overkill,shockwave
+  everyone = @awesome-autobots, @evil-decepticons
+  
+  [/]
+  * =
+  [metroplex:/trunk]
+  @awesome-autobots = rw
+  @evil-decepticons = r
+  
+
+  [slammer:/tags/rel-1.0.0]
+  @awesome-autobots = rw
+  @evil-decepticons =
+    
+:path_with_nonexistent_group: |-
+  [groups]
+  snarfs = snarf, oswarld
+  
+  [/]
+  * =
+  
+  [liono:/trunk]
+  @thunder-cats = rw
+  hachiman = rw
+  
+  

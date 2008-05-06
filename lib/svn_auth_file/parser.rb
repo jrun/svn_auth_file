@@ -1,35 +1,47 @@
 module SvnAuthFile
   class Parser
-    class Regex
-      # TODO: Confirm that the group section must be before paths
-      GROUP_SECTION = /\[groups\]/
-      # TODO: confirm group names may only start with letters, 
-      # it may allo alpha-numeric
-      GROUP_LINE = /(^\s[a-zA-Z].*$)|(^$)/
-      
-      PATH_LINE = /^\s\[(.*:)+\/.*\]\s$/
+    class SyntaxError < StandardError
     end
-    
+
     attr_reader :text, :listener
     
     def initialize(text, listener = nil)
-      @text = text
-      @listener = listener || DefaultListener.new
+      @text, @listener = text, listener || DefaultListener.new
     end
     
-    def parse(scanner = nil)
-      scanner ||= Scanner.new @text
-      scanner.skip_until Regex::GROUP_SECTION
+    def parse
+      in_groups, in_path = false, false
       
-      @listener.group_section_start
-      
-      while ! (group_line = scanner.scan Regex::GROUP_LINE).nil?
-        if group_line
-          @listener.group *parse_group_line(group_line)
-          e
+      @text.split($/).each do |line|        
+        case line
+          
+        # TODO: Confirm that the group section must be before paths  
+        when /^\s?\[groups\]\s?$/
+          in_groups = true
+          @listener.group_section_start
+          
+        # TODO: confirm group names may only start with letters, 
+        # it may allo alpha-numeric          
+        when /^[a-zA-Z].*$/ 
+          raise SyntaxError, 'outside groups section' unless in_groups
+          @listener.group *parse_group_line(line)
+          
+        when /^\s?\[([a-zA-Z0-9\-\_]*)\:?(\/.*)\]\s?$/
+          if in_groups
+            @listener.group_section_end
+            in_groups = false
+          end
+          
+          in_path = true
+          @listener.path_start $2, $1
+        when /^\#.*$/
+          @listener.comment line          
+        when /^\s$/, //
+          @listener.empty_line
+        else
+          raise SyntaxError, "dont understand #{line}"
+        end
       end
-
-      @listener.group_section_end
       
     end
     
