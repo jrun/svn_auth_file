@@ -6,7 +6,8 @@ module SvnAuthFile
     attr_reader :text, :listener
     
     def initialize(text, listener = nil)
-      @text, @listener = text, listener || DefaultListener.new
+      @text = text
+      @listener = listener || DefaultListener.new
     end
     
     def parse
