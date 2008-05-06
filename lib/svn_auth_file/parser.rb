@@ -22,7 +22,7 @@ module SvnAuthFile
           @listener.group_section_start
           
         # TODO: confirm group names may only start with letters, 
-        # it may allo alpha-numeric          
+        # it may allow alpha-numeric          
         when /^[a-zA-Z].*$/ 
           raise SyntaxError, 'outside groups section' unless in_groups
           @listener.group *parse_group_line(line)
