@@ -35,12 +35,17 @@ module SvnAuthFile
           
           in_path = true
           @listener.path_start $2, $1
+          
+        when /^\s([\@]?[a-zA-Z0-9\-\_]*)\s=\s(|rw|r|w)?\s?$/
+          group_or_user = $1
+          @listerner.permission $2, $1 
+          
         when /^\#.*$/
           @listener.comment line          
         when /^\s$/, //
           @listener.empty_line
         else
-          raise SyntaxError, "dont understand #{line}"
+          @listenter.unrecognized_line
         end
       end
       

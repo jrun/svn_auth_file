@@ -26,6 +26,9 @@ module SvnAuthFile
     
     def empty_line
     end
+    
+    def unrecognized_line
+    end
   end
   
   class DefaultListener

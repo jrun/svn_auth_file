@@ -2,7 +2,7 @@
   [groups]
   awesome-autobots = prime, ironhide, hound
   evil-decepticons=Megatron,overkill,shockwave
-
+  
   everyone = @awesome-autobots, @evil-decepticons
 :with_comments: |-
   # comment line 1
@@ -22,6 +22,9 @@
   @awesome-autobots = rw
   @evil-decepticons =
   
+:permission_with_no_permission: |-
+  @evil-decepticons =
+  
 :full: |-
   [groups]
   awesome-autobots = prime, ironhide, hound
@@ -31,9 +34,9 @@
   [/]
   * =
   [metroplex:/trunk]
+  overkill = w
   @awesome-autobots = rw
   @evil-decepticons = r
-  
 
   [slammer:/tags/rel-1.0.0]
   @awesome-autobots = rw

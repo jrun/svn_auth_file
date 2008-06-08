@@ -1,0 +1,82 @@
+grammar SvnAuthFileGrammar
+	rule file
+		groups repo*
+	end
+	
+	rule groups
+		groups_header 
+		optional_space
+		newline*
+		group*
+	end
+	
+	rule group
+		group_name 
+		equal_op 
+		(individual_member optional_comma / group_member optional_comma)+
+		newline*
+	end
+	
+	rule groups_header
+		"[groups]"
+	end
+	
+	rule group_name
+		first_letter:[a-zA-Z] rest_of_letters:[a-zA-Z0-9_\-]*
+	end
+
+	rule individual_member
+		first_letter:[a-zA-Z] rest_of_letters:[a-zA-Z0-9_\-]*
+	end
+
+	rule group_member
+		"@"? individual_member
+	end
+
+	rule repo
+		repo_def repo_priv_def*
+	end
+	
+	rule repo_def
+		"[" 
+		(
+			repo_name:([a-zA-Z] [a-zA-Z0-9_\-]*) 
+			":"
+		)?
+		repo_path:("/" [a-zA-Z0-9./_\-]*)
+		"]"
+		newline*
+	end
+	
+	rule repo_priv_def
+		repo_priv_target equal_op repo_priv newline*
+	end
+	
+	rule repo_priv_target
+		("*" / individual_member / group_member)
+	end
+	
+	rule repo_priv
+		("rw" / "r" / "w" / "")
+	end
+		
+	rule comment
+		"#"+ .* newline
+	end
+
+	rule newline
+		optional_space ("\n" / "\r\n")
+	end
+	
+	rule equal_op
+		optional_space "=" optional_space
+	end
+	
+	rule optional_comma
+		","? optional_space
+	end
+	
+	rule optional_space
+		" "*
+	end	
+end
